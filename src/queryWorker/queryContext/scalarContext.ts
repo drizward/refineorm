@@ -73,4 +73,8 @@ export class ScalarContext implements SequenceContext {
             alias: 'result'
         }];
     }
+
+    getViewName(): string {
+        return 'result';
+    }
 }

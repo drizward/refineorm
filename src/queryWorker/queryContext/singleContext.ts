@@ -24,8 +24,9 @@ export class SingleContext implements SequenceContext {
     }
     
     finalizeQuery(composer: QueryComposer, subquery: boolean, prefix?: string): void {
-        this.mapper = new ObjectMapper().mergeMapper('result', this.parent.mapper);
-        
+        this.mapper = new ObjectMapper().asScalar('result');
+
+        this.select = composer.formatAsSubQuery(this.parent);
         this.select.fields = [{
             type: "SelectFieldExpression",
             alias: "result",
@@ -47,6 +48,10 @@ export class SingleContext implements SequenceContext {
             property: "result",
             view: null
         }
+    }
+
+    getViewName(): string {
+        return this.parent.getViewName();
     }
 
 

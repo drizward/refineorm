@@ -67,7 +67,7 @@ export class ObjectMapper {
         return this;
     }
 
-    mapResult(obj: any) {
+    mapResult(obj: any, extend?: any) {
         if(typeof obj != 'object') {
             return obj;
         }
@@ -77,7 +77,7 @@ export class ObjectMapper {
             return si.converter? si.converter(value) : value;
         }
         else {
-            const ex = this.extract(obj);
+            const ex = this.extract(obj, extend);
             return ex;
         }
     }

@@ -60,7 +60,6 @@ export class JoinWorker extends BaseSelectWorker {
         selectContext.mapper = sequence.mapper;
 
         return new JoinContext(joinedTable, selectContext, predicate);
-
     }
 
     private translatePredicate(composer: QueryComposer, expr: Expression, base: SequenceContext, joined?: SequenceContext) {

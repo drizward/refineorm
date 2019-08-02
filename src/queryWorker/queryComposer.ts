@@ -39,6 +39,7 @@ import { ScalarContext } from './queryContext/scalarContext';
 import { AllAnyWorker } from './allAnyWorker';
 import { GroupByWorker } from './groupByWorker';
 import { JoinWorker } from './joinWorker';
+import { JoinedTableContext } from './queryContext/joinedTableContext';
 
 type PrimitiveType = string | number | boolean;
 
@@ -309,7 +310,7 @@ export class QueryComposer {
             from: [{
                 type: "SqlViewExpression",
                 from: sequence.select,
-                name: sequence instanceof TableContext? sequence.tableName : 'test'
+                name: sequence.getViewName()
             }]
         };
 

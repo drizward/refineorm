@@ -42,7 +42,6 @@ export class GroupContext extends KeyValueContext implements SequenceContext {
         this.parent.finalizeQuery(composer, false);
         this.mapper = this.parent.mapper;
         this.select = this.parent.select;
-
         
         if(!this.select.groupBy)
             this.select.groupBy = [];
@@ -68,6 +67,10 @@ export class GroupContext extends KeyValueContext implements SequenceContext {
             if(!prop) continue;
             this.select.groupBy.push(prop);
         }
+    }
+
+    getViewName(): string {
+        return this.parent.getViewName();
     }
 
 }

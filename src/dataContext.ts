@@ -66,7 +66,9 @@ export abstract class DataContext {
         if(isInit)
             return;
 
-        await this.beginMigration();
+        if(this.migrationStrategy != MigrationStrategy.Never)
+            await this.beginMigration();
+            
         const done: { [name: string]: boolean } = {};
         const createTable = async <T> (type: ClassType<T>) => {
             if(done[type.name])
@@ -104,10 +106,10 @@ export abstract class DataContext {
                 }
             }            
             
-            //if(cols.filter(x => internal.mapper.isTableType(td.columns[x].classType)))
-            await provider.executeQuery(this.createTableExpr(type));
-            done[type.name] = true;
+            if(this.migrationStrategy != MigrationStrategy.Never)
+                await provider.executeQuery(this.createTableExpr(type));
 
+            done[type.name] = true;
             for(const m of many) {
                 await provider.executeQuery(this.createTableExpr(type, m.ref.type.type.constructor));
             }

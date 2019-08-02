@@ -78,7 +78,7 @@ describe('Select mapping', () => {
         context.release();
     });
 
-    it('Can select name and job', async () => {
+    it('Can select name and nationality', async () => {
         const context = new PgContext();
 
         const users = await context.users
@@ -95,6 +95,47 @@ describe('Select mapping', () => {
 
         expect(users).to.exist;
         expect(users.length).to.be.equals(5);
+
+        await context.release();
+    });
+
+    it('Can select name and nationality using property instead of predicate', async () => {
+        const context = new PgContext();
+
+        const users = await context.users
+                                   .join(
+                                       context.nationalities,
+                                       a => a.nationality,
+                                       b => b.code,
+                                       (a, b) => ({
+                                           name: a.name,
+                                           nationality: b.name,
+                                           residence: b.capital
+                                       })
+                                    )
+                                    .toArray()
+
+        expect(users).to.exist;
+        expect(users.length).to.be.equals(5);
+
+        await context.release();
+    });
+
+    it('Can select name and nationality using property instead of predicate', async () => {
+        const context = new PgContext();
+
+        const users = await context.users
+                                   .join(
+                                       context.nationalities,
+                                       a => a.nationality,
+                                       b => b.code,
+                                       (a, b) => b
+                                    )
+                                    .groupBy(x => x.code)
+                                    .toArray()
+
+        expect(users).to.exist;
+        expect(users.length).to.be.equals(4);
 
         await context.release();
     });

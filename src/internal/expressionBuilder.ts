@@ -38,7 +38,8 @@ export const ExpressionBuilder = {
             isNullable: cd.isNullable,
             name: cd.name,
             sqlType: this.dataType(cd.columnType, cd.maxLength),
-            tableName: table.name
+            tableName: table.name,
+            isAutoIncrement: cd.isAutoIncrement
         }
     },
 

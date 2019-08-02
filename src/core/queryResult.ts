@@ -60,10 +60,10 @@ export class QueryResult<T> implements AsyncIterator<T> {
         let i = this.mappedCount;
 
         while(this.items.length <= index && !this.isAllMapped) {
-            item = this.mapper.extract(this.raw[i++]);
+            item = this.mapper.mapResult(this.raw[i++]);
 
             while(this.raw[i] && this.mapper.canExtend(this.raw[i], item))
-                this.mapper.extract(this.raw[i++], item);
+                this.mapper.mapResult(this.raw[i++], item);
 
             this.items.push(item);
         }

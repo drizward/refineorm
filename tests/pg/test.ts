@@ -190,4 +190,16 @@ describe('Read Query', () => {
         await context.release();
     });
 
+    it('Can read element by serial id', async () => {
+        const context = new PgContext();
+
+        let anakin = await context.users.first(x => x.id == 4);
+
+        expect(anakin).to.be.exist;
+        expect(anakin.name).to.be.equals("Anakin Skywalker");
+        expect(anakin.age).to.be.equals(26);
+
+        await context.release();
+    });
+
 });

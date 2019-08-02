@@ -25,5 +25,15 @@ export class PgBuilder extends StandardQueryBuilder {
     protected formatStringLiteral(str: string): string {
         return `"${str}"`;
     }
+    protected buildColumnDefinition(column: ColumnExpression) {
+        this.buildColumnName(column);
+
+        if(column.isAutoIncrement) {
+            this.sqlText.appendText(' SERIAL');
+            return;
+        }
+
+        this.buildColumnAttribute(column);
+    }
 
 }

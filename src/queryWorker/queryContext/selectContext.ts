@@ -86,4 +86,8 @@ export class SelectContext extends KeyValueContext implements SequenceContext {
         }
     }
 
+    getViewName(): string {
+        return 't1';
+    }
+
 }

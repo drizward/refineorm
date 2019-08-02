@@ -75,4 +75,8 @@ export class TableContext extends KeyValueContext implements BaseTableContext, S
         }
     }
 
+    getViewName(): string {
+        return this.tableName;
+    }
+
 }

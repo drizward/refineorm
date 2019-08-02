@@ -1,44 +1,66 @@
 {
-    "dependencies": {
-        "@types/object-hash": "^1.3.0",
-        "cherow": "^1.6.9",
-        "node-postgres-named": "^2.4.1",
-        "object-hash": "^1.3.1"
-    },
-    "devDependencies": {
-        "@types/chai": "^4.1.7",
-        "@types/estree": "0.0.39",
-        "@types/mocha": "^5.2.6",
-        "@types/mysql": "^2.15.5",
-        "@types/pg": "7.4.8",
-        "@types/mssql": "4.0.7",
-        "@types/oracledb": "1.11.34",
-        "@types/sqlite3": "3.1.3",
-        "@types/node": "^10.12.20",
-        "chai": "^4.2.0",
-        "mocha": "^6.1.4",
-        "moment": "^2.24.0",
-        "mysql": "^2.16.0",
-        "pg": "7.11.0",
-        "oracledb": "3.1.2",
-        "sqlite3": "4.0.9",
-        "mssql": "5.1.0",
-        "named-placeholders": "^1.1.2",
-        "reflect-metadata": "^0.1.13",
-        "ts-node": "^8.1.0",
-        "typescript": "^3.4.0-dev.20190131"
-    },
-    "scripts": {
-        "test:simple-crud": "mocha --timeout 10000 -s 0 --require ts-node/register tests/simple-crud/test.ts",
-        "test:query-read": "mocha --timeout 10000 -s 0 --require ts-node/register tests/query-read/test.ts",
-        "test:select": "mocha --timeout 10000 -s 0 --require ts-node/register tests/select/test.ts",
-        "test:grouping": "mocha --timeout 10000 -s 0 --require ts-node/register tests/grouping/test.ts",
-        "test:ins": "mocha --timeout 10000 -s 0 --require ts-node/register tests/ins/test.ts",
-        "test:aggregate": "mocha --timeout 10000 -s 0 --require ts-node/register tests/aggregate/test.ts",
-        "test:assoc-1t1": "mocha --timeout 10000 -s 0 --require ts-node/register tests/associations/one-to-one/test.ts",
-        "test:assoc-1tn": "mocha --timeout 10000 -s 0 --require ts-node/register tests/associations/one-to-many/test.ts",
-        "test:assoc-ntn": "mocha --timeout 10000 -s 0 --require ts-node/register tests/associations/many-to-many/test.ts",
-        "test:pg": "mocha --timeout 10000 -s 0 --require ts-node/register tests/pg/test.ts",
-        "test:join": "mocha --timeout 10000 -s 0 --require ts-node/register tests/join/test.ts"
-    }
+"name": "refineorm",
+  "description": "Refine is a type-safe ORM for TS/JS in both code-first and database-first paradigm that uses lambda/arrow function as the query definition that inspired by LINQ query style in C#. Refine are highly inspired by those popular .NET ORM such as Entity Framework and Linq2db, and also TS ORM such as TypeORM.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drizward/refineorm.git"
+  },
+  "keywords": [
+    "orm",
+    "lambda",
+    "expression"
+  ],
+  "author": "Dimas Rizward",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drizward/refineorm/issues"
+  },
+  "homepage": "https://github.com/drizward/refineorm#readme",
+  "dependencies": {
+    "cherow": "^1.6.9",
+    "object-hash": "^1.3.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/estree": "0.0.39",
+    "@types/mocha": "^5.2.6",
+    "@types/mysql": "^2.15.5",
+    "@types/pg": "7.4.8",
+    "@types/mssql": "4.0.7",
+    "@types/object-hash": "^1.3.0",
+    "@types/oracledb": "1.11.34",
+    "@types/sqlite3": "3.1.3",
+    "@types/node": "^10.12.20",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "moment": "^2.24.0",
+    "mysql": "^2.16.0",
+    "pg": "7.11.0",
+    "oracledb": "3.1.2",
+    "sqlite3": "4.0.9",
+    "mssql": "5.1.0",
+    "named-placeholders": "^1.1.2",
+    "node-postgres-named": "^2.4.1",
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.0-dev.20190131"
+  },
+  "scripts": {
+    "test:simple-crud": "mocha --timeout 10000 -s 0 --require ts-node/register tests/simple-crud/test.ts",
+    "test:query-read": "mocha --timeout 10000 -s 0 --require ts-node/register tests/query-read/test.ts",
+    "test:select": "mocha --timeout 10000 -s 0 --require ts-node/register tests/select/test.ts",
+    "test:grouping": "mocha --timeout 10000 -s 0 --require ts-node/register tests/grouping/test.ts",
+    "test:ins": "mocha --timeout 10000 -s 0 --require ts-node/register tests/ins/test.ts",
+    "test:aggregate": "mocha --timeout 10000 -s 0 --require ts-node/register tests/aggregate/test.ts",
+    "test:assoc-1t1": "mocha --timeout 10000 -s 0 --require ts-node/register tests/associations/one-to-one/test.ts",
+    "test:assoc-1tn": "mocha --timeout 10000 -s 0 --require ts-node/register tests/associations/one-to-many/test.ts",
+    "test:assoc-ntn": "mocha --timeout 10000 -s 0 --require ts-node/register tests/associations/many-to-many/test.ts",
+    "test:pg": "mocha --timeout 10000 -s 0 --require ts-node/register tests/pg/test.ts",
+    "test:join": "mocha --timeout 10000 -s 0 --require ts-node/register tests/join/test.ts"
+  }
 }

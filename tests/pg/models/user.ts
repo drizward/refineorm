@@ -2,17 +2,23 @@
 import { Table } from '../../../src/mapper/@table';
 import { Column } from '../../../src/mapper/@column';
 import { Key } from '../../../src/mapper/@key';
+import { DefaultValue } from '../../../src/mapper/@defaultValue';
+import { NotNull } from '../../../src/mapper/@notNull';
 
 @Table('user')
 export class User {
 
-    @Column() @Key()
+    @Key(true)
+    id: number;
+
+    @Column()
     name: string;
 
     @Column()
     job: string;
 
-    @Column()
+    @Column() 
+    @DefaultValue(18)
     age: number;
 
     @Column()

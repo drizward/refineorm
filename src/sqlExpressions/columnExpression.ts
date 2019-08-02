@@ -13,5 +13,6 @@ export interface ColumnExpression {
     sqlType: DataTypeExpression;
     classType: any;
     isNullable: boolean;
+    isAutoIncrement: boolean;
 
 }

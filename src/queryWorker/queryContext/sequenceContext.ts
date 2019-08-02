@@ -15,4 +15,6 @@ export interface SequenceContext extends QueryContext {
     dataContext: DataContext;
 
     finalizeQuery(composer: QueryComposer, subquery: boolean, prefix?: string): void;
+
+    getViewName(): string;
 }

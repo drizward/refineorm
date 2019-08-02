@@ -108,15 +108,26 @@ export class StandardQueryBuilder implements QueryBuilder {
         this.sqlText.appendText(`CREATE TABLE ${this.formatTableName(table)}`);
     }
 
-    protected buildColumnDefinition(column: ColumnExpression) {
+    protected buildColumnName(column: ColumnExpression) {
         this.sqlText.appendLine()
                     .appendIndent()
                     .appendText(`${this.formatIdentifier(column.name)} `);
+    }
 
+    protected buildColumnDefinition(column: ColumnExpression) {
+        this.buildColumnName(column);
+        this.buildColumnAttribute(column);
+    }
+
+    protected buildColumnAttribute(column: ColumnExpression) {
         this.buildDataTypeDefinition(column.sqlType);
 
         this.sqlText.appendWhitespace()
                     .appendText(!column.isNullable? 'NOT NULL' : 'NULL');
+
+        if(column.isAutoIncrement) {
+            this.sqlText.appendText(' AUTO_INCREMENT ');
+        }
 
         if(column.defaultValue) {
             this.sqlText.appendText(` DEFAULT `);
@@ -134,7 +145,6 @@ export class StandardQueryBuilder implements QueryBuilder {
 
     protected buildConstraints(constraints: ConstraintExpression[], table: TableExpression) {
         const ctrMaps: { [code: string]: ConstraintExpression[] } = {};
-        let ctrKeyCount = 0;
         for(let ctr of constraints) {
             const code = this.constraintCode.get(ctr.constraint);
             if(!code) continue; // ignore the default, notnull, and index constraint here

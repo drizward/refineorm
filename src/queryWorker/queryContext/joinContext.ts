@@ -55,4 +55,8 @@ export class JoinContext implements SequenceContext {
         throw new Error("Method not implemented.");
     }
 
+    getViewName(): string {
+        return this.baseContext.getViewName();
+    }
+
 }
