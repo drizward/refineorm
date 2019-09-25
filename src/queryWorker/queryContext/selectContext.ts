@@ -8,6 +8,7 @@ import { QueryParameter } from "../../core/queryParameter";
 import { SelectExpression } from "../../sqlExpressions/selectExpression";
 import { QueryComposer } from "../queryComposer";
 import { ClassType } from "../../internal/internal";
+import { ComputedPropertyContext } from "./computedPropertyContext";
 
 export class SelectContext extends KeyValueContext implements SequenceContext {
     
@@ -19,19 +20,38 @@ export class SelectContext extends KeyValueContext implements SequenceContext {
     dataContext: DataContext;
     
     private properties: { key: string | number, value: QueryContext }[] = [];
+    private innerSelect: SelectExpression;
+    private name: string;
 
-    constructor(parent?: SequenceContext) {
+    constructor(parent?: SequenceContext, composer?: QueryComposer) {
         super();
 
         this.mapper = new ObjectMapper();
         if(parent)
-            this.inheritFrom(parent);
+            this.inheritFrom(parent, composer);
     }
 
-    inheritFrom(parent: SequenceContext) {
-        this.select = parent.select;
+    inheritFrom(parent: SequenceContext, composer?: QueryComposer) {
+        if(composer) {
+            this.innerSelect = parent.select;
+            this.select = {
+                type: "SelectExpression",
+                fields: [],
+                from: [{
+                    type: "SqlViewExpression",
+                    from: this.innerSelect,
+                    name: this.getViewName()
+                }]
+            }
+        }
+        else this.select = parent.select;
+
         this.parameters = parent.parameters;
         this.dataContext = parent.dataContext;
+    }
+
+    setViewName(name: string) {
+        this.name = name;
     }
 
     addProperty(key: string | number, value: QueryContext) {
@@ -54,7 +74,7 @@ export class SelectContext extends KeyValueContext implements SequenceContext {
         const prop = this.properties.find(x => x.key == key);
 
         if(prop)
-            return prop.value;
+            return new ComputedPropertyContext(prop.key.toString(), prop.value, this);
 
         return null;
     }
@@ -64,6 +84,7 @@ export class SelectContext extends KeyValueContext implements SequenceContext {
     }
 
     finalizeQuery(composer: QueryComposer, subquery: boolean, prefix?: string): void {
+        const select = this.innerSelect || this.select;
         for(const prop of this.properties) {
             const key = prop.key.toString();
             const propName = prefix? `${prefix}.${key}` : key;
@@ -71,14 +92,14 @@ export class SelectContext extends KeyValueContext implements SequenceContext {
             if('finalizeQuery' in prop.value) {
                 const sequence = prop.value as SequenceContext;
                 
-                sequence.select = this.select;
+                sequence.select = select;
                 sequence.finalizeQuery(composer, subquery, propName);
                 
                 continue;
             }
 
             const sqlExpression = prop.value.toSqlExpression();
-            this.select.fields.push({
+            select.fields.push({
                 type: "SelectFieldExpression",
                 field: sqlExpression as any,
                 alias: propName
@@ -87,7 +108,7 @@ export class SelectContext extends KeyValueContext implements SequenceContext {
     }
 
     getViewName(): string {
-        return 't1';
+        return this.name || 't1';
     }
 
 }

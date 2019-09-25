@@ -4,12 +4,7 @@ import { SqlStatement } from '../sqlExpressions/sqlStatement';
 import { SqlOperator } from '../sqlExpressions/sqlOperator';
 import { SqlBinaryExpression } from '../sqlExpressions/sqlBinaryExpression';
 import { SqlIdentifierExpression } from '../sqlExpressions/sqlIdentifierExpression';
-import { TableContext } from '../queryWorker/queryContext/tableContext';
-import { SqlPropertyExpression } from '../sqlExpressions/sqlPropertyExpression';
 import { LambdaContext } from '../queryWorker/queryContext/lambdaContext';
-import { KeyValueContext } from '../queryWorker/queryContext/keyValueContext';
-import { QueryContext } from '../queryWorker/queryContext/queryContext';
-import { FunctionContext } from '../queryWorker/queryContext/functionContext';
 import { QueryContextResolver } from './queryContextResolver';
 import { ObjectContext } from '../queryWorker/queryContext/objectContext';
 

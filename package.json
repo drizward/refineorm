@@ -44,8 +44,6 @@
     "oracledb": "3.1.2",
     "sqlite3": "4.0.9",
     "mssql": "5.1.0",
-    "named-placeholders": "^1.1.2",
-    "node-postgres-named": "^2.4.1",
     "reflect-metadata": "^0.1.13",
     "ts-node": "^8.1.0",
     "typescript": "^3.4.0-dev.20190131"

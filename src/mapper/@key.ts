@@ -11,6 +11,6 @@ export function Key(autoIncrement: boolean = false) {
         const desc = mapper.mapOf(target, propertyName);
         mapper.setAsKey(desc);
 
-        desc.property.isAutoIncrement = true;
+        desc.property.isAutoIncrement = autoIncrement;
     }
 }

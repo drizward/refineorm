@@ -297,7 +297,7 @@ export class QueryComposer {
         if(!(selectContext instanceof SelectContext))
             return new SingleContext(sequence, selectContext);
         
-        selectContext.inheritFrom(sequence);
+        selectContext.inheritFrom(sequence, this);
         return selectContext;
     }
 

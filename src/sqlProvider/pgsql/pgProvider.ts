@@ -6,12 +6,14 @@ import { Client } from 'pg';
 import { PgBuilder } from "./pgBuilder";
 import { SchemaProvider } from "../schemaProvider";
 import { PgSchemaProvider } from "./pgSchemaProvider";
+import { ParameterFormatter } from "../../core/parameterFormatter";
 const named = require('node-postgres-named');
 
 @ProvideFor('pgsql')
 export class PgProvider implements SqlProvider {
 
     client: Client;
+    readonly formatter = new ParameterFormatter("$", (k, i, t) => `\$${i+1}`);
 
     createConnection(config: ConnectionConfig): void {
         this.client = new Client({
@@ -21,17 +23,22 @@ export class PgProvider implements SqlProvider {
             database: config.database,
             port: config.port
         });
-        
-        named.patch(this.client);
     }
 
     async executeCommand(sql: string, parameter: any): Promise<number> {
+        if(parameter && !Array.isArray(parameter)) 
+            ({ sql, parameter } = this.formatter.format(sql, parameter));
+
+        console.log(sql);
         const res = await this.client.query(sql, parameter);
         //console.log(res);
         return res.rowCount;
     }
 
     async executeQuery(sql: string, parameter: any) {
+        if(parameter && !Array.isArray(parameter)) 
+            ({ sql, parameter } = this.formatter.format(sql, parameter));
+            
         const res = await this.client.query(sql, parameter);
         //console.log(res);
         return res.rows;

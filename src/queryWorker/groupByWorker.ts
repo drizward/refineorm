@@ -14,7 +14,7 @@ export class GroupByWorker extends BaseSelectWorker {
         const [selector] = args;
         sequence = composer.selectBy(sequence, selector);
 
-        //console.log(sequence);
+        
         return new GroupContext(sequence);
     }
 

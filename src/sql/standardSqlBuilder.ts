@@ -473,7 +473,7 @@ export class StandardQueryBuilder implements QueryBuilder {
     }
 
     protected formatIdentifier(identifier: string) {
-        return `${identifier}`;
+        return identifier;
     }
 
     protected formatStringLiteral(str: string) {

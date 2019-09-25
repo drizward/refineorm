@@ -1,7 +1,7 @@
 
-import { MysqlContext } from './mysqlContext';
 import { expect } from 'chai';
 import { User } from './models/user';
+import { MysqlContext } from './mysqlContext';
 
 const users: User[] = [
     new User({

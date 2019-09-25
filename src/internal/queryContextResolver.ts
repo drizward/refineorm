@@ -65,12 +65,16 @@ export class QueryContextResolver {
         return property;
     }
 
-    resolveObject(obj: ObjectExpression, context: KeyValueContext) {
+    resolveObject(obj: ObjectExpression, context: KeyValueContext, prefix?: string) {
         const select = new SelectContext();
         for(const member of obj.properties) {
             const key = this.translator.unwrapIdentifier(member.key);
 
-            select.addProperty(key, this.resolve(member.value, context));
+            const ctx = this.resolve(member.value, context);
+            if(ctx instanceof SelectContext)
+                ctx.setViewName(key.toString());
+
+            select.addProperty(key, ctx);
         }
 
         return select;
@@ -104,13 +108,14 @@ export class QueryContextResolver {
         if(call.callee.object.type == "Super") 
             throw new Error("Super are not allowed in an SQL query");
 
-        const obj = this.resolve(call.callee.object, context);
         let name: string;
+        const obj = this.resolve(call.callee.object, context);
+        const property = call.callee.property;
 
-        switch(call.callee.property.type) {
-            case "Identifier"   : name = call.callee.property.name; break;
-            case "Literal"      : name = call.callee.property.value.toString(); break;
-            default             : throw new Error(`${call.callee.property.type} are not valid for call expression`);
+        switch(property.type) {
+            case "Identifier"   : name = property.name; break;
+            case "Literal"      : name = property.value.toString(); break;
+            default             : throw new Error(`${property.type} are not valid for call expression`);
         }
         
         const adapter = internal.adapterMapper.findMethod(name, obj.getBoundType());

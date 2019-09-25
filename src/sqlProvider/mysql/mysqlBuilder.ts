@@ -19,6 +19,10 @@ export class MysqlBuilder extends StandardQueryBuilder {
         return `:${parameter}`;
     }
 
+    formatIdentifier(identifier: string): string {
+        return `\`${identifier}\``;
+    }
+
     buildLimit(limit: LimitExpression): void {
         this.sqlText.appendLine().appendText('LIMIT ');
 

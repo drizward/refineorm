@@ -6,12 +6,13 @@ import { MysqlBuilder } from "./mysqlBuilder";
 import { QueryBuilder } from "../../sql/sqlBuilder";
 import { SchemaProvider } from "../schemaProvider";
 import { MysqlSchemaProvider } from "../mysql/mysqlSchemaProvider";
-const toUnnamed = require('named-placeholders')();
+import { ParameterFormatter } from "../../core/parameterFormatter";
 
 @ProvideFor('mysql')
 export class MysqlProvider implements SqlProvider {
 
     conn: mysql.Connection;
+    formatter = new ParameterFormatter(':', '?');
 
     createConnection(config: string | ConnectionConfig): void {
         this.conn = mysql.createConnection(
@@ -31,7 +32,7 @@ export class MysqlProvider implements SqlProvider {
 
     async executeQuery(sql: string, parameter: any) {
         if(!Array.isArray(parameter)) 
-            [sql, parameter] = toUnnamed(sql, parameter);
+            ({ sql, parameter } = this.formatter.format(sql, parameter));
 
         return new Promise((r, e) => {
             this.conn.query(sql, parameter, (err, res) => {
